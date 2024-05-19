@@ -18,5 +18,5 @@ fastapi
 # uvicorn[standard]
 
 # Team libraries
-transformers==4.36.2
+transformers==4.38.0
 torch==1.12.1
