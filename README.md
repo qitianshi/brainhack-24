@@ -1,5 +1,5 @@
 # dingdongs
-"Dingdongs" can be traced back to Old English and Middle Dutch. The term "ding" originates from the Old English "dingan," meaning to strike or hit, often used to describe the sound of a bell. The term "dong" comes from the Middle Dutch "donckus," which means a resonant or booming sound. Combining these elements, "Dingdongs" historically represents a harmonious and impactful sound, symbolizing our aim to make a resonant impact at BrainHack 2024.
+"Dingdongs" can be traced back to Old English and Middle Dutch. The term "ding" originates from the Old English "dingan," meaning to strike or hit, often used to describe the sound of a bell. The term "dong" comes from the Middle Dutch "donckus," which refers to the sound a duck makes when hitting the water at or above the von Plonck ducking velocity. Combining these elements, "Dingdongs" historically represents a harmonious and impactful sound, symbolizing our aim to make a resonant impact at BrainHack 2024.
 
 ## Docker cheatsheet
 
@@ -54,7 +54,15 @@ docker images
 ### Remove an image
 
 ```bash
-docker rmi IMAGE_NAME
+docker rmi dingdongs-asr
+```
+
+```bash
+docker rmi dingdongs-nlp
+```
+
+```bash
+docker rmi dingdongs-vlm
 ```
 
 ### Remove a container
