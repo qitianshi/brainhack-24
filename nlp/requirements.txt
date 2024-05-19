@@ -19,4 +19,4 @@ fastapi
 
 # Team libraries
 transformers==4.36.2
-torch==1.12.1
+torch==1.13.1
