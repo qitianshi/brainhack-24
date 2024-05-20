@@ -132,9 +132,9 @@ gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-asr' 
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-nlp' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:latest --container-health-route /health --container-predict-route /stt --container-ports 5001 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-nlp' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:latest --container-health-route /health --container-predict-route /stt --container-ports 5002 --version-aliases default
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest --container-health-route /health --container-predict-route /stt --container-ports 5001 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest --container-health-route /health --container-predict-route /stt --container-ports 5004 --version-aliases default
 ```
