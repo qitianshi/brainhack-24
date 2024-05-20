@@ -1,5 +1,4 @@
-# models
-models/
+# Trained models
 asr/model/
 nlp/model/
 vlm/model/
