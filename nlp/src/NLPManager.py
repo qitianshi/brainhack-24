@@ -1,14 +1,16 @@
 from typing import Dict
 from transformers import RobertaTokenizer, RobertaForQuestionAnswering
 import torch
+from os import path
+
 
 class NLPManager:
     
     def __init__(self):
         
         # Load the tokenizer and model
-        self.tokenizer = RobertaTokenizer.from_pretrained('deepset/roberta-base-squad2')
-        self.model = RobertaForQuestionAnswering.from_pretrained('deepset/roberta-base-squad2')
+        self.tokenizer = RobertaTokenizer.from_pretrained(path.join(path.dirname(path.abspath(__file__)), "model", "tokenizer"))
+        self.model = RobertaForQuestionAnswering.from_pretrained(path.join(path.dirname(path.abspath(__file__)), "model"))
 
         # Specify the device
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

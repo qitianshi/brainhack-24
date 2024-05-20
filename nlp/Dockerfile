@@ -23,5 +23,8 @@ RUN pip install -r requirements.txt
 # copy the rest of the files into the container
 COPY src .
 
+# Copy the model
+COPY model ./model
+
 # start model service
 CMD uvicorn api_service:app --port 5002 --host 0.0.0.0
