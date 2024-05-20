@@ -6,29 +6,29 @@
 ### Build
 
 ```bash
-docker build -t dingdongs-asr . ⁠ build
+docker build -t dingdongs-asr .
 ```
 
 ```bash
-docker build -t dingdongs-nlp . ⁠ build
+docker build -t dingdongs-nlp .
 ```
 
 ```bash
-docker build -t dingdongs-vlm . ⁠ build
+docker build -t dingdongs-vlm .
 ```
 
 ### Run
 
 ```bash
-docker run -p 5001:5001 --gpus all -d dingdongs-asr ⁠ run
+docker run -p 5001:5001 --gpus all -d dingdongs-asr
 ```
 
 ```bash
-docker run -p 5002:5002 --gpus all -d dingdongs-nlp⁠ run
+docker run -p 5002:5002 --gpus all -d dingdongs-nlp
 ```
 
 ```bash
-docker run -p 5004:5004 --gpus all -d dingdongs-vlm⁠ run
+docker run -p 5004:5004 --gpus all -d dingdongs-vlm⁠
 ```
 
 ### View running containers
