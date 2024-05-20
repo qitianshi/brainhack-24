@@ -1,4 +1,7 @@
 models/
+asr/model/
+nlp/model/
+vlm/model/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
