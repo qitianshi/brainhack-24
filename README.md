@@ -19,6 +19,8 @@ docker build -t dingdongs-vlm .
 
 ### Run
 
+(run without `-d` to show debug info)
+
 ```bash
 docker run -p 5001:5001 --gpus all -d dingdongs-asr
 ```
@@ -71,6 +73,28 @@ docker rmi dingdongs-vlm
 
 ```bash
 docker rm CONTAINER_NAME 
+```
+
+### Remove all images and containers
+
+```bash
+# Stop all running containers
+docker stop $(docker ps -aq)
+
+# Remove all containers
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q)
+
+# Remove all volumes (optional)
+docker volume rm $(docker volume ls -q)
+
+# Remove all networks (optional)
+docker network rm $(docker network ls -q)
+
+# Clean up dangling Docker objects (optional)
+docker system prune -a -f --volumes
 ```
 
 ### Tag container for push
