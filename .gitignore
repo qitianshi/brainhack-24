@@ -1,7 +1,5 @@
-# Trained models
-asr/model/
-nlp/model/
-vlm/model/
+# Model binary files
+*.bin
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
