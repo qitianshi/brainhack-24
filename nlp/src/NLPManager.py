@@ -1,52 +1,37 @@
 from typing import Dict
-from transformers import RobertaTokenizer, RobertaForQuestionAnswering
-import torch
-from os import path
-
 
 class NLPManager:
-    
     def __init__(self):
-        
-        # Load the tokenizer and model
-        self.tokenizer = RobertaTokenizer.from_pretrained(path.join(path.dirname(path.abspath(__file__)), "model", "tokenizer"))
-        self.model = RobertaForQuestionAnswering.from_pretrained(path.join(path.dirname(path.abspath(__file__)), "model"))
-
-        # Specify the device
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.model.to(self.device)
-
+        pass
+    
     @staticmethod
     def convert_numbers(orig: str) -> str:
-        
-        # Mapping of words to numbers
         numbers = {
-            'one': 1, 'five': 5, 'zero': 0, 'two': 2, 'six': 6,
-            'niner': 9, 'seven': 7, 'three': 3, 'four': 4, 'eight': 8
+            'zero': '0', 'one': '1', 'two': '2', 'three': '3', 'four': '4',
+            'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'niner': '9'
         }
-        
-        result = "".join(str(numbers[word]) for word in orig.split(" "))
-        
+        parts = orig.split()
+        result = "".join(numbers.get(part, part) for part in parts)
         return result
 
-    def get_answer(self, question: str, context: str) -> str:
-        
-        inputs = self.tokenizer.encode_plus(question, context, return_tensors='pt').to(self.device)
-        input_ids = inputs['input_ids'].tolist()[0]
-        
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-            answer_start_scores = outputs.start_logits
-            answer_end_scores = outputs.end_logits
-
-        answer_start = torch.argmax(answer_start_scores)
-        answer_end = torch.argmax(answer_end_scores) + 1
-
-        return self.tokenizer.convert_tokens_to_string(self.tokenizer.convert_ids_to_tokens(input_ids[answer_start:answer_end]))
-
     def qa(self, context: str) -> Dict[str, str]:
+        context = context[0].lower() + context[1:]
         
-        heading = self.convert_numbers(self.get_answer("What is the heading?", context).strip())
-        target = self.get_answer("What is the target?", context).strip()
-        tool = self.get_answer("What is the tool?", context).strip()
-        return {"heading": heading, "target": target, "tool": tool}
+        data_indices = {}
+        
+        for marker in ("heading", "target", "tool to deploy"):
+            data_indices[marker] = context.index(marker + " is ")
+            
+        data_indices = dict(sorted(data_indices.items(), key=lambda item: item[1]))
+        
+        result = {}
+        for i, (key, val) in enumerate(data_indices.items()):
+            result[key] = context[val + len(key + " is "):(len(context) if (i == len(data_indices) - 1) else list(data_indices.items())[i + 1][1])]
+            result[key] = result[key].strip().strip(',').strip(".")
+            
+        result["tool"] = result["tool to deploy"]
+        del result["tool to deploy"]
+        
+        result["heading"] = NLPManager.convert_numbers(result["heading"])
+        
+        return result
