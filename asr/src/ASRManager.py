@@ -13,8 +13,8 @@ class ASRManager:
         self.tokenizer = self.processor.tokenizer
         self.model = WhisperForConditionalGeneration.from_pretrained(path.join(path.dirname(path.abspath(__file__)), "model"))
         
-        # device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        # self.model.to(device)
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.model.to(self.device)
 
     def transcribe(self, audio_bytes: bytes) -> str:
         """perform ASR transcription on one audio represented as audio bytes"""
@@ -26,9 +26,13 @@ class ASRManager:
         
         # Convert audio to log-Mel spectrogram
         audio_input = self.processor.feature_extractor(audio_data, sampling_rate=sample_rate, return_tensors="pt").input_features
+        
+        # perform inference on GPU
+        audio_input = audio_input.to(self.device)
 
         # Perform inference
-        generated_ids = self.model.generate(audio_input)
+        with torch.no_grad():
+            generated_ids = self.model.generate(audio_input)
 
         # Decode the generated tokens
         transcription = self.processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
