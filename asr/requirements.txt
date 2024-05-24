@@ -4,3 +4,17 @@ fastapi
 accelerate
 uvicorn[standard]
 pandas==2.0.3
+openai-whisper
+setuptools-rust
+ffmpeg
+datasets[audio]
+accelerate
+evaluate
+jiwer
+tensorboard
+gradio
+torch==1.12.1
+torchvision
+torchaudio
+numpy
+soundfile
