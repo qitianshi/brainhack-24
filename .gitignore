@@ -1,6 +1,7 @@
 # Model binary files
 *.bin
 *.safetensors
+*.pt
 results/
 
 # Byte-compiled / optimized / DLL files
