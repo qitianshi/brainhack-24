@@ -1,5 +1,5 @@
 # dingdongs
-"Dingdongs" can be traced back to Old English and Middle Dutch. The term "ding" originates from the Old English "dingan," meaning to strike or hit, often used to describe the sound of a bell. The term "dong" comes from the Middle Dutch "donckus," which refers to the sound a duck makes when hitting the water at or above the von Plonck ducking velocity. Combining these elements, "Dingdongs" historically represents a harmonious and impactful sound, symbolizing our aim to make a resonant impact at BrainHack 2024.
+"dingdongs" can be traced back to Old English and Middle Dutch. The term "ding" originates from the Old English "dingan," meaning to strike or hit, often used to describe the sound of a bell. The term "dong" comes from the Middle Dutch "donckus," which refers to the sound a duck makes when hitting the water at or above the von Plonck ducking velocity. Combining these elements, "dingdongs" represents a harmonious and impactful sound, symbolizing our aim to make a resonant impact at BrainHack 2024.
 
 ## Docker cheatsheet
 
@@ -49,78 +49,6 @@ docker run -p 5003:5003 dingdongs-autonomy
 docker run -p 5005:5005 dingdongs-main
 ```
 
-### View running containers
-
-```bash
-docker ps
-```
-
-### Stop a container
-
-(but doesn't remove it)
-
-```bash
-docker kill CONTAINER-ID
-```
-
-### View all images
-
-```bash
-docker images
-```
-
-### Remove an image
-
-```bash
-docker rmi dingdongs-asr
-```
-
-```bash
-docker rmi dingdongs-nlp
-```
-
-```bash
-docker rmi dingdongs-vlm
-```
-
-```bash
-docker rmi dingdongs-autonomy
-```
-
-```bash
-docker rmi dingdongs-main
-```
-
-### Remove a container
-
-(u shld kill it first)
-
-```bash
-docker rm CONTAINER_NAME 
-```
-
-### Remove all images and containers
-
-```bash
-# Stop all running containers
-docker stop $(docker ps -aq)
-
-# Remove all containers
-docker rm $(docker ps -aq)
-
-# Remove all images
-docker rmi $(docker images -q)
-
-# Remove all volumes (optional)
-docker volume rm $(docker volume ls -q)
-
-# Remove all networks (optional)
-docker network rm $(docker network ls -q)
-
-# Clean up dangling Docker objects (optional)
-docker system prune -a -f --volumes
-```
-
 ### Tag images for push to artifact registry (Finals)
 
 ```bash
@@ -128,19 +56,19 @@ docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repositor
 ```
 
 ```bash
-docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:finals
+docker tag dingdongs-nlp asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:finals
 ```
 
 ```bash
-docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
+docker tag dingdongs-vlm asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
 ```
 
 ```bash
-docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals
+docker tag dingdongs-autonomy asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals
 ```
 
 ```bash
-docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals
+docker tag dingdongs-main asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals
 ```
 
 ### Push images to artifact registry (Finals)
@@ -180,11 +108,67 @@ gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' 
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-autonomy' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals --container-health-route /health --container-predict-route /identify --container-ports 5003 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-autonomy' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals --container-health-route /health --container-ports 5003 --version-aliases default
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-main' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals --container-health-route /health --container-predict-route /identify --container-ports 5005 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-main' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals --container-health-route /health --container-ports 5005 --version-aliases default
+```
+
+### View running containers
+
+```bash
+docker ps
+```
+
+### Stop a container
+
+(but doesn't remove it)
+
+```bash
+docker kill CONTAINER-ID
+```
+
+### View all images
+
+```bash
+docker images
+```
+
+### Remove an image
+
+```bash
+docker rmi IMAGE_NAME
+```
+
+### Remove a container
+
+(u shld kill it first)
+
+```bash
+docker rm CONTAINER_NAME 
+```
+
+### Remove all images and containers
+
+```bash
+# Stop all running containers
+docker stop $(docker ps -aq)
+
+# Remove all containers
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q)
+
+# Remove all volumes (optional)
+docker volume rm $(docker volume ls -q)
+
+# Remove all networks (optional)
+docker network rm $(docker network ls -q)
+
+# Clean up dangling Docker objects (optional)
+docker system prune -a -f --volumes
 ```
 
 ## Creating local simulator for finals
@@ -205,7 +189,7 @@ You can run the simulator + competition server from the top-level directory by r
 docker run -p 8000:8000 competition
 ```
 
-access `localhost:8000` from browser machine.
+access [`localhost:8000`](localhost:8000) from browser machine.
 
 ### Running containers with Docker Compose
 
@@ -231,7 +215,6 @@ Create an `.env` file based on the provided `.env.example` file, and update it a
 - `USE_ROBOT = "false"`
 
 Then run `docker compose up`. This should start the competition server locally, as well as the rest of the services accordingly to connect to it.
-
 
 ## Tagging & releases
 
