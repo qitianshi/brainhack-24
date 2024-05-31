@@ -152,11 +152,11 @@ gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' 
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals --container-health-route /health --container-predict-route /identify --container-ports 5003 --version-aliases default
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals --container-health-route /health --container-predict-route /identify --container-ports 5005 --version-aliases default
 ```
 
 ## Creating local simulator for finals
