@@ -3,11 +3,12 @@ import cmudict
 from random import choice
 from difflib import SequenceMatcher
 from transformers import BartForConditionalGeneration, BartTokenizer, AutoTokenizer
+from os import path
 
 # Initialized only if needed.
 phonetics = None
-tokenizer_name = "./tokenizer"
-model_name = "./results_simple (1) (best)/checkpoint-8000"
+tokenizer_name = path.join(path.dirname(path.abspath(__file__)), "tokenizer")
+model_name = path.join(path.dirname(path.abspath(__file__)), "correction_model")
 tokenizer = None
 model = None
 
