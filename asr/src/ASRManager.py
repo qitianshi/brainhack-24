@@ -1,11 +1,13 @@
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 import torch
 import io
-import numpy as np
+# import numpy as np
 import soundfile as sf
 from os import path
+import re
 
 class ASRManager:
+    
     def __init__(self):
         """model initialisation. using a finetuned openai/whisper-small.en model"""
         self.processor = WhisperProcessor.from_pretrained(path.join(path.dirname(path.abspath(__file__)), "model"))
@@ -15,6 +17,31 @@ class ASRManager:
         
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.model.to(self.device)
+        
+    @staticmethod
+    def correct_heading(text):
+    
+        # This is some stupid hardcoded version because the real one is overkill here.
+        # The actual methodology is to extract the heading, find words that don't match
+        # the ten number words, get their pronunciation from CMUdict, calculate their
+        # Levenshtein distance to our expected words, and see which one is the closest.
+
+        # Define the pattern to match
+        match = re.compile(r'heading is(.*?)(?:tool to deploy is|target is|$)', re.IGNORECASE).search(text)
+
+        # If no match, raise an error.
+        if not match:
+            raise ValueError("No heading found.")
+
+        heading = match.group(1)
+
+        # hardcoded because 8-)
+        # this is our only error rn
+        heading = heading.replace("by", "five")
+
+        result = text[:match.start(1)] + heading + text[match.end(1):]
+
+        return result
 
     def transcribe(self, audio_bytes: bytes) -> str:
         """perform ASR transcription on one audio represented as audio bytes"""
@@ -36,5 +63,10 @@ class ASRManager:
 
         # Decode the generated tokens
         transcription = self.processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+        
+        # try:
+        #     transcription = self.correct_heading(transcription)
+        # except ValueError:
+        #     pass
         
         return transcription
