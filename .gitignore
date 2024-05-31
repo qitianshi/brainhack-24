@@ -2,6 +2,7 @@
 *.bin
 *.safetensors
 *.pt
+*.pth
 results/
 
 # Byte-compiled / optimized / DLL files
