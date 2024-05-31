@@ -8,39 +8,18 @@ extraction_pattern = re.compile(
     re.IGNORECASE
 )
 
-def extract(text):
+def extract_parts(text):
     
     matches = extraction_pattern.finditer(text)
     
     result = {}
     for match in matches:
         if match.group(1):
-            result['heading'] = {
-                'value': match.group(1).strip(" ,"),
-                'start': match.start(1),
-                'end': match.end(1)
-            }
+            result['heading'] = match.group(1).strip(" ,")
         elif match.group(2):
-            result['tool'] = {
-                'value': match.group(2).strip(" ,"),
-                'start': match.start(2),
-                'end': match.end(2)
-            }
+            result['tool'] = match.group(2).strip(" ,")
         elif match.group(3):
-            result['target'] = {
-                'value': match.group(3).strip(" ,"),
-                'start': match.start(3),
-                'end': match.end(3)
-            }
-    
-    return result
-    
-def extract_parts(extraction):
-    
-    result = {}
-    
-    for key, val in extraction.items():
-        result[key] = val['value']
+            result['target'] = match.group(3).strip(" ,")
     
     return result
     
@@ -67,7 +46,7 @@ def convert_numbers(orig):
 def parse_transcript(text):
     """Converts the transcript to the dict form for NLP."""
     
-    extraction = extract_parts(extract(text))
+    extraction = extract_parts(text)
     
     # Converts the headings, but skips this step if the heading can't be found.
     try:
