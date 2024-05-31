@@ -1,10 +1,10 @@
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 import torch
 import io
-# import numpy as np
 import soundfile as sf
 from os import path
 import re
+import correction
 
 class ASRManager:
     
@@ -64,9 +64,6 @@ class ASRManager:
         # Decode the generated tokens
         transcription = self.processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
         
-        # try:
-        #     transcription = self.correct_heading(transcription)
-        # except ValueError:
-        #     pass
+        transcription = correction.reconstruct_transcript(correction.parse_transcript(transcription))
         
         return transcription

@@ -16,5 +16,5 @@ gradio
 torch==1.12.1
 torchvision
 torchaudio
-numpy
 soundfile
+cmudict==1.0.23

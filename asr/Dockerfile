@@ -23,6 +23,8 @@ RUN pip install -r requirements.txt
 # copy the rest of the files into the container
 COPY src .
 COPY model ./model
+COPY correction_model ./correction_model
+COPY tokenizer ./tokenizer
 
 # start model service
 CMD uvicorn api_service:app --port 5001 --host 0.0.0.0
