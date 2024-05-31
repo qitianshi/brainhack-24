@@ -21,6 +21,10 @@ docker build -t dingdongs-vlm .
 docker build -t dingdongs-autonomy .
 ```
 
+```bash
+docker build -t dingdongs-main .
+```
+
 ### Run
 
 (run without `-d` to show debug info)
@@ -39,6 +43,10 @@ docker run -p 5004:5004 --gpus all -d dingdongs-vlm⁠
 
 ```bash
 docker run -p 5003:5003 dingdongs-autonomy
+```
+
+```bash
+docker run -p 5005:5005 dingdongs-main
 ```
 
 ### View running containers
@@ -79,6 +87,10 @@ docker rmi dingdongs-vlm
 docker rmi dingdongs-autonomy
 ```
 
+```bash
+docker rmi dingdongs-main
+```
+
 ### Remove a container
 
 (u shld kill it first)
@@ -109,7 +121,7 @@ docker network rm $(docker network ls -q)
 docker system prune -a -f --volumes
 ```
 
-### Tag container for push to artifact registry (Finals)
+### Tag images for push to artifact registry (Finals)
 
 ```bash
 docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:finals
@@ -123,7 +135,15 @@ docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repositor
 docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
 ```
 
-### Push container to artifact registry (Finals)
+```bash
+docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals
+```
+
+```bash
+docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals
+```
+
+### Push images to artifact registry (Finals)
 
 ```bash
 docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:finals
@@ -135,6 +155,14 @@ docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/d
 
 ```bash
 docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
+```
+
+```bash
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals
+```
+
+```bash
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals
 ```
 
 ### Submit
@@ -194,6 +222,15 @@ docker compose down
 # start a particular docker compose file by name (it defaults to `docker-compose.yml` if not indicated)
 docker compose -f docker-compose-finals.yml up
 ```
+
+### testing
+Create an `.env` file based on the provided `.env.example` file, and update it accordingly:
+
+- `COMPETITION_IP = "172.17.0.1"` on Linux, `"host.docker.internal"` otherwise
+- `LOCAL_IP = "172.17.0.1"` on Linux, `"host.docker.internal"` otherwise
+- `USE_ROBOT = "false"`
+
+Then run `docker compose up`. This should start the competition server locally, as well as the rest of the services accordingly to connect to it.
 
 
 ## Tagging & releases
