@@ -1,29 +1,88 @@
 {
-  "_name_or_path": "./whisper-small-noise-run-1",
-  "activation_dropout": 0.0,
-  "activation_function": "gelu",
-  "apply_spec_augment": false,
-  "architectures": [
-    "WhisperForConditionalGeneration"
+  "alignment_heads": [
+    [
+      6,
+      6
+    ],
+    [
+      7,
+      0
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      8,
+      7
+    ],
+    [
+      9,
+      0
+    ],
+    [
+      9,
+      4
+    ],
+    [
+      9,
+      8
+    ],
+    [
+      9,
+      10
+    ],
+    [
+      10,
+      0
+    ],
+    [
+      10,
+      1
+    ],
+    [
+      10,
+      2
+    ],
+    [
+      10,
+      3
+    ],
+    [
+      10,
+      6
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      11,
+      2
+    ],
+    [
+      11,
+      4
+    ]
   ],
-  "attention_dropout": 0.0,
   "begin_suppress_tokens": [
     220,
     50256
   ],
   "bos_token_id": 50257,
-  "classifier_proj_size": 256,
-  "d_model": 768,
-  "decoder_attention_heads": 12,
-  "decoder_ffn_dim": 3072,
-  "decoder_layerdrop": 0.0,
-  "decoder_layers": 12,
   "decoder_start_token_id": 50257,
-  "dropout": 0.0,
-  "encoder_attention_heads": 12,
-  "encoder_ffn_dim": 3072,
-  "encoder_layerdrop": 0.0,
-  "encoder_layers": 12,
   "eos_token_id": 50256,
   "forced_decoder_ids": [
     [
@@ -31,23 +90,12 @@
       50362
     ]
   ],
-  "init_std": 0.02,
-  "is_encoder_decoder": true,
-  "mask_feature_length": 10,
-  "mask_feature_min_masks": 0,
-  "mask_feature_prob": 0.0,
-  "mask_time_length": 10,
-  "mask_time_min_masks": 2,
-  "mask_time_prob": 0.05,
+  "is_multilingual": false,
+  "max_initial_timestamp_index": 50,
   "max_length": 448,
-  "max_source_positions": 1500,
-  "max_target_positions": 448,
-  "median_filter_width": 7,
-  "model_type": "whisper",
-  "num_hidden_layers": 12,
-  "num_mel_bins": 80,
+  "no_timestamps_token_id": 50362,
   "pad_token_id": 50256,
-  "scale_embedding": false,
+  "prev_sot_token_id": 50360,
   "suppress_tokens": [
     1,
     2,
@@ -140,9 +188,5 @@
     50360,
     50361
   ],
-  "torch_dtype": "float32",
-  "transformers_version": "4.41.1",
-  "use_cache": true,
-  "use_weighted_layer_sum": false,
-  "vocab_size": 51864
+  "transformers_version": "4.41.1"
 }
