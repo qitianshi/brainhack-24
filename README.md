@@ -109,22 +109,6 @@ docker network rm $(docker network ls -q)
 docker system prune -a -f --volumes
 ```
 
-### Running containers with Docker Compose
-
-```bash
-# start all the services
-docker compose up
-
-# force a build of all services and start them afterwards
-docker compose up --build
-
-# take down all the services
-docker compose down
-
-# start a particular docker compose file by name (it defaults to `docker-compose.yml` if not indicated)
-docker compose -f docker-compose-finals.yml up
-```
-
 ### Tag container for push to artifact registry (Finals)
 
 ```bash
@@ -156,16 +140,61 @@ docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/d
 ### Submit
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-asr' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:latest --container-health-route /health --container-predict-route /stt --container-ports 5001 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-asr' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:finals --container-health-route /health --container-predict-route /stt --container-ports 5001 --version-aliases default
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-nlp' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:latest --container-health-route /health --container-predict-route /extract --container-ports 5002 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-nlp' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:finals --container-health-route /health --container-predict-route /extract --container-ports 5002 --version-aliases default
 ```
 
 ```bash
-gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
 ```
+
+```bash
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-autonomy:finals --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
+```
+
+```bash
+gcloud ai models upload --region asia-southeast1 --display-name 'dingdongs-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-main:finals --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
+```
+
+## Creating local simulator for finals
+
+### Building the simulator
+
+build the simulator + competition server from the top-level directory by running:
+
+```bash
+docker build -t competition .
+```
+
+### Running the simulator
+
+You can run the simulator + competition server from the top-level directory by running:
+
+```bash
+docker run -p 8000:8000 competition
+```
+
+access `localhost:8000` from browser machine.
+
+### Running containers with Docker Compose
+
+```bash
+# start all the services
+docker compose up
+
+# force a build of all services and start them afterwards
+docker compose up --build
+
+# take down all the services
+docker compose down
+
+# start a particular docker compose file by name (it defaults to `docker-compose.yml` if not indicated)
+docker compose -f docker-compose-finals.yml up
+```
+
 
 ## Tagging & releases
 
