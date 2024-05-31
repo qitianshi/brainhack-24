@@ -17,6 +17,10 @@ docker build -t dingdongs-nlp .
 docker build -t dingdongs-vlm .
 ```
 
+```bash
+docker build -t dingdongs-autonomy
+```
+
 ### Run
 
 (run without `-d` to show debug info)
@@ -31,6 +35,10 @@ docker run -p 5002:5002 --gpus all -d dingdongs-nlp
 
 ```bash
 docker run -p 5004:5004 --gpus all -d dingdongs-vlm⁠
+```
+
+```bash
+docker run -p 5003:5003 dingdongs-autonomy
 ```
 
 ### View running containers
@@ -97,6 +105,22 @@ docker network rm $(docker network ls -q)
 docker system prune -a -f --volumes
 ```
 
+### Running containers with Docker Compose
+
+```bash
+# start all the services
+docker compose up
+
+# force a build of all services and start them afterwards
+docker compose up --build
+
+# take down all the services
+docker compose down
+
+# start a particular docker compose file by name (it defaults to `docker-compose.yml` if not indicated)
+docker compose -f docker-compose-finals.yml up
+```
+
 ### Tag container for push
 
 ```bash
@@ -111,6 +135,20 @@ docker tag dingdongs-nlp asia-southeast1-docker.pkg.dev/dsta-angelhack/repositor
 docker tag dingdongs-vlm asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest
 ```
 
+### Tag container for push to artifact registry (Finals)
+
+```bash
+docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:finals
+```
+
+```bash
+docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:finals
+```
+
+```bash
+docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
+```
+
 ### Push
 
 ```bash
@@ -123,6 +161,20 @@ docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/d
 
 ```bash
 docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest
+```
+
+### Push container to artifact registry (Finals)
+
+```bash
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:finals
+```
+
+```bash
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:finals
+```
+
+```bash
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
 ```
 
 ### Submit
