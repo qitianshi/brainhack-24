@@ -75,6 +75,10 @@ docker rmi dingdongs-nlp
 docker rmi dingdongs-vlm
 ```
 
+```bash
+docker rmi dingdongs-autonomy
+```
+
 ### Remove a container
 
 (u shld kill it first)
