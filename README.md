@@ -18,7 +18,7 @@ docker build -t dingdongs-vlm .
 ```
 
 ```bash
-docker build -t dingdongs-autonomy
+docker build -t dingdongs-autonomy .
 ```
 
 ### Run
@@ -125,20 +125,6 @@ docker compose down
 docker compose -f docker-compose-finals.yml up
 ```
 
-### Tag container for push
-
-```bash
-docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:latest
-```
-
-```bash
-docker tag dingdongs-nlp asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:latest
-```
-
-```bash
-docker tag dingdongs-vlm asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest
-```
-
 ### Tag container for push to artifact registry (Finals)
 
 ```bash
@@ -151,20 +137,6 @@ docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repositor
 
 ```bash
 docker tag dingdongs-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:finals
-```
-
-### Push
-
-```bash
-docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-asr:latest
-```
-
-```bash
-docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-nlp:latest
-```
-
-```bash
-docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-dingdongs/dingdongs-vlm:latest
 ```
 
 ### Push container to artifact registry (Finals)
