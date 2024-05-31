@@ -14,7 +14,7 @@ WORKDIR /workspace
 
 # install requirements
 COPY requirements.txt .
-RUN pip install --no-cache-dir -U pip && \
+RUN pip install --no-cache-dir pip && \
     pip install --no-cache-dir --prefer-binary -r requirements.txt
 
 # copy the rest of the files into the container
