@@ -182,9 +182,9 @@ Create an `.env` file based on the provided `.env.example` file, and update it a
 
 Then run `docker compose up`. This should start the competition server locally, as well as the rest of the services accordingly to connect to it.
 
-#### Useful commands to know
+### Useful commands to know
 
-### Building the simulator
+#### Building the simulator
 
 build the simulator + competition server from the top-level directory by running:
 
@@ -192,7 +192,7 @@ build the simulator + competition server from the top-level directory by running
 docker build -t competition .
 ```
 
-### Running the simulator
+#### Running the simulator
 
 You can run the simulator + competition server from the top-level directory by running:
 
@@ -202,7 +202,7 @@ docker run -p 8000:8000 competition
 
 access [`localhost:8000`](localhost:8000) from browser machine.
 
-### Running containers with Docker Compose
+#### Running containers with Docker Compose
 
 ```bash
 # start all the services
