@@ -1,5 +1,5 @@
 {
-  "_name_or_path": "./whisper-small-noise-run-1",
+  "_name_or_path": "./whisper-small-run-1",
   "activation_dropout": 0.0,
   "activation_function": "gelu",
   "apply_spec_augment": false,
@@ -141,7 +141,7 @@
     50361
   ],
   "torch_dtype": "float32",
-  "transformers_version": "4.41.1",
+  "transformers_version": "4.24.0",
   "use_cache": true,
   "use_weighted_layer_sum": false,
   "vocab_size": 51864

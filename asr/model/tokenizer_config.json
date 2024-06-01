@@ -12975,14 +12975,44 @@
     "<|nocaptions|>",
     "<|notimestamps|>"
   ],
-  "bos_token": "<|endoftext|>",
+  "bos_token": {
+    "__type": "AddedToken",
+    "content": "<|endoftext|>",
+    "lstrip": false,
+    "normalized": true,
+    "rstrip": false,
+    "single_word": false
+  },
   "clean_up_tokenization_spaces": true,
-  "eos_token": "<|endoftext|>",
+  "eos_token": {
+    "__type": "AddedToken",
+    "content": "<|endoftext|>",
+    "lstrip": false,
+    "normalized": true,
+    "rstrip": false,
+    "single_word": false
+  },
   "errors": "replace",
   "model_max_length": 1024,
-  "pad_token": "<|endoftext|>",
+  "name_or_path": "./whisper-small-run-1",
+  "pad_token": {
+    "__type": "AddedToken",
+    "content": "<|endoftext|>",
+    "lstrip": false,
+    "normalized": true,
+    "rstrip": false,
+    "single_word": false
+  },
   "processor_class": "WhisperProcessor",
   "return_attention_mask": false,
+  "special_tokens_map_file": "./whisper-small-run-1/special_tokens_map.json",
   "tokenizer_class": "WhisperTokenizer",
-  "unk_token": "<|endoftext|>"
+  "unk_token": {
+    "__type": "AddedToken",
+    "content": "<|endoftext|>",
+    "lstrip": false,
+    "normalized": true,
+    "rstrip": false,
+    "single_word": false
+  }
 }
