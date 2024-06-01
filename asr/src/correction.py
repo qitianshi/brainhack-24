@@ -209,8 +209,6 @@ def model_correct(orig):
 
     # Tokenize input
     inputs = tokenizer(orig, return_tensors="pt")
-    if torch.cuda.is_available():
-        inputs = {k: v.to('cuda') for k, v in inputs.items()}
 
     # Generate output
     outputs = model.generate(inputs["input_ids"], max_length=100)
