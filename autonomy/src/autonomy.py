@@ -66,6 +66,16 @@ async def send_heading(request: Request):
     print(heading)
     # TODO: fill in here
     # depends on how your team would like to implement the robotics component
+    
+    conversion = {
+        'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'niner': '9'
+    }
+    
+    for word, digit in conversion.items():
+        heading = heading.replace(word, digit)
+        
+    heading = ''.join(heading.split(' '))
+    
     heading = int(heading)
     if heading > 180:
         heading -= 360
