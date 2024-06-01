@@ -143,6 +143,8 @@ def norm_weighted_levenshtein_dist(a, b, consonant_sub_cost=0.5):
 
 def correct_number(orig, include_duals=False):
     
+    global phonetics
+    
     if not phonetics:
         phonetics = cmudict.dict()
     
@@ -196,7 +198,7 @@ def convert_numbers(orig):
 
 def model_correct(orig):
     
-    global tokenizer, model
+    global tokenizer_name, model_name, tokenizer, model
     
     # Load the model if not yet initialized
     if not (tokenizer and model):
