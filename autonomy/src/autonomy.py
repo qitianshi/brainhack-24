@@ -64,23 +64,35 @@ async def send_heading(request: Request):
 
     heading = request_dict["heading"]
     print(heading)
+    
     # TODO: fill in here
     # depends on how your team would like to implement the robotics component
     
-    conversion = {
-        'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'niner': '9'
-    }
+    # if we look at robot_env.py, env.pan_cannon(heading) takes in
+    # a *change* in yaw, not an absolute yaw.
+    # however, i think the heading given is the ABSOLUTE heading
+    # so we need to get delta and put it in
     
-    for word, digit in conversion.items():
-        heading = heading.replace(word, digit)
-        
-    heading = ''.join(heading.split(' '))
-    
+    # get absolute heading to turn to
     heading = int(heading)
     if heading > 180:
         heading -= 360
+    
+    # detect delta in yaw
+    current_yaw = env.get_yaw()
+    yaw_change = heading - current_yaw
+    
+    # rebase yaw_delta so that it falls between -180 and 180
+    if yaw_change > 180:
+        yaw_change -= 360
+    elif yaw_change < -180:
+        yaw_change += 360
+        
+    # output current yaw and yaw change
+    print(f'current yaw: {current_yaw}; yaw change: {yaw_change}')
+        
     # rotate to heading
-    await env.pan_cannon(heading)
+    await env.pan_cannon(yaw_change)
     print("taking snapshot")
     b_image: bytes = await env.take_snapshot()
     return Response(content=b_image, media_type="image/jpeg")
