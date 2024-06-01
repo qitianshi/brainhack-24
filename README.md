@@ -171,7 +171,18 @@ docker network rm $(docker network ls -q)
 docker system prune -a -f --volumes
 ```
 
-## Creating local simulator for finals
+## Creating a local simulator for finals
+
+### Testing
+Create an `.env` file based on the provided `.env.example` file, and update it accordingly:
+
+- `COMPETITION_IP = "172.17.0.1"` on Linux, `"host.docker.internal"` otherwise
+- `LOCAL_IP = "172.17.0.1"` on Linux, `"host.docker.internal"` otherwise
+- `USE_ROBOT = "false"`
+
+Then run `docker compose up`. This should start the competition server locally, as well as the rest of the services accordingly to connect to it.
+
+#### Useful commands to know
 
 ### Building the simulator
 
@@ -206,15 +217,6 @@ docker compose down
 # start a particular docker compose file by name (it defaults to `docker-compose.yml` if not indicated)
 docker compose -f docker-compose-finals.yml up
 ```
-
-### testing
-Create an `.env` file based on the provided `.env.example` file, and update it accordingly:
-
-- `COMPETITION_IP = "172.17.0.1"` on Linux, `"host.docker.internal"` otherwise
-- `LOCAL_IP = "172.17.0.1"` on Linux, `"host.docker.internal"` otherwise
-- `USE_ROBOT = "false"`
-
-Then run `docker compose up`. This should start the competition server locally, as well as the rest of the services accordingly to connect to it.
 
 ## Tagging & releases
 
