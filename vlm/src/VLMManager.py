@@ -1,92 +1,84 @@
-from typing import List
-from PIL import Image
-from torchvision.transforms.functional import pil_to_tensor
-import json
 import torch
-from transformers import Owlv2Processor, Owlv2ForObjectDetection
-from typing import Dict, List, Optional, Tuple, Union
+import clip
+from PIL import Image
 import random
-from transformers.image_transforms import center_to_corners_format
-from transformers.utils import TensorType
-def post_process_object_detection( outputs, threshold: float = 0.1, target_sizes: Union[TensorType, List[Tuple]] = None,n = 1
-):
-    """
-    Converts the raw output of [`OwlViTForObjectDetection`] into final bounding boxes in (top_left_x, top_left_y,
-    bottom_right_x, bottom_right_y) format.
+import os
+from os import listdir, path
+from os.path import isfile, join
+import io
+from torchvision import transforms
 
-    Args:
-        outputs ([`OwlViTObjectDetectionOutput`]):
-            Raw outputs of the model.
-        threshold (`float`, *optional*):
-            Score threshold to keep object detection predictions.
-        target_sizes (`torch.Tensor` or `List[Tuple[int, int]]`, *optional*):
-            Tensor of shape `(batch_size, 2)` or list of tuples (`Tuple[int, int]`) containing the target size
-            `(height, width)` of each image in the batch. If unset, predictions will not be resized.
-    Returns:
-        `List[Dict]`: A list of dictionaries, each dictionary containing the scores, labels and boxes for an image
-        in the batch as predicted by the model.
-    """
-    # TODO: (amy) add support for other frameworks
-    logits, boxes = outputs.logits, outputs.pred_boxes
+print([f for f in os.listdir('.') if os.path.isfile(f)])
+print(os.getcwd())
 
-    # if target_sizes is not None:
-    #     if len(logits) != len(target_sizes):
-    #         raise ValueError(
-    #             "Make sure that you pass in as many target sizes as the batch dimension of the logits"
-    #         )
-
-    probs = torch.max(logits, dim=-1)
-    scores = torch.sigmoid(probs.values)
-    labels = probs.indices
-
-    # Convert to [x0, y0, x1, y1] format
-    boxes = center_to_corners_format(boxes)
-
-    # Convert from relative [0, 1] to absolute [0, height] coordinates
-    if target_sizes is not None:
-        scale_fct = torch.tensor([[1520., 1520., 1520., 1520.] for i in range(n)], device='cuda:0')
-        boxes = boxes * scale_fct[:, None, :]
-        #print(boxes)
-
-    results = []
-    for s, l, b in zip(scores, labels, boxes):
-        score = s[s > threshold]
-        label = l[s > threshold]
-        box = b[s > threshold]
-        results.append({"scores": score, "labels": label, "boxes": box})
-
-    return results
+from ultralytics import YOLOWorld
 class VLMManager:
     def __init__(self):
         # initialize the model here
-        self.device = torch.device('cuda') 
-        self.processor = Owlv2Processor.from_pretrained("google/owlv2-base-patch16")
-        self.model = Owlv2ForObjectDetection.from_pretrained("google/owlv2-base-patch16").cuda()
+        self.device = 'cuda'
+        self.clippreprocess = transforms.Compose([
+            transforms.Resize(size=224, interpolation=transforms.InterpolationMode("bicubic"), max_size=None, antialias=True),
+            transforms.CenterCrop(size=(224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=(0.48145466, 0.4578275, 0.40821073), std=(0.26862954, 0.26130258,0.27577711))
+        ])
+        print(os.getcwd())
+        print([f for f in os.listdir('.') if os.path.isfile(f)])
+        self.clipmodel= torch.load(path.join(path.dirname(path.abspath(__file__)), "clip_ft_2.pt"))
+        self.objects = ["cargo aircraft","light aircraft","commercial aircraft","drone","missile","helicopter","fighter jet","fighter plane"]
+        self.model = YOLOWorld(path.join(path.dirname(path.abspath(__file__)), "yoloworldbest2.pt")).to(self.device)
+        for i in self.clipmodel.parameters():
+            i.requires_grad=False
         for i in self.model.parameters():
-            i.requires_grad= False
+            i.requires_grad=False
         pass
 
-    def identify(self, imagebyte: bytes, caption: str) -> List[int]:
+    def identify(self, imagebyte: bytes, caption: str):
         # perform object detection with a vision-language model
-        inputs = self.processor(text=caption, images=Image.open(imagebyte), return_tensors="pt").to(self.device)
-        outputs=self.model(**inputs)
-        results = post_process_object_detection(outputs=outputs, target_sizes=1, threshold=0.1,n=1)
-        maxconfidence = 0
-        bbox = []
-        
-        #print(groundtruths)
-        for box, confidence, label in zip(boxes, scores, labels):
-            box = torch.Tensor.tolist(box)
-            #print(labels)
-            
-            if confidence>maxconfidence:
-                bbox= box
-                #print(maxscore,findOverlap(box),box)
-                maxconfidence = confidence
-        bbox = [int(i) for i in bbox]
-        bbox[2]-=bbox[0]
-        bbox[3]-=bbox[1]
-        if bbox !=[]:
-            return bbox
-        else:
+        inputimage = Image.open(io.BytesIO(imagebyte))
+        out = self.model.predict(inputimage,conf=0.01)
+        for currindex,i in enumerate(self.objects):
+            if i in caption:
+                groundcat = currindex
+        groundbox = [440, 112, 52, 36]
+        classlist = out[0].boxes.cls.tolist()
+        possible = []
+        for indexx,i in enumerate(classlist):
+            if i == groundcat:
+                possible.append(indexx)
+        bestindex = -1
+        bboxlist = out[0].boxes.xyxyn.tolist()
+        tokenizedtext = clip.tokenize([caption]).to(self.device)
+        clipprob = []
+        maxscore = 0
+        for chosenindex in possible:
+            bbox = bboxlist[chosenindex]
+            bbox[0]*=1520
+            bbox[1]*=870
+            bbox[2]*=1520
+            bbox[3]*=870
+            deltax = bbox[2]-bbox[0]
+            deltay = bbox[3]-bbox[1]
+            bbox[0]-=deltax/2
+            bbox[1]-=deltay/2
+            bbox[2]-=deltax/2
+            bbox[3]-=deltay/2
+            croppedimage = inputimage.crop(bbox)
+            croppedimage = self.clippreprocess(croppedimage).unsqueeze(0).to(self.device)
+            logits_per_image, logits_per_text = self.clipmodel(croppedimage, tokenizedtext)
+            probs = logits_per_image.cpu().detach().numpy()
+            if probs[0][0] > maxscore:
+                maxscore = probs[0][0]
+                bestindex = chosenindex
+                bestbbox = bbox.copy()
+        #print(bestbbox,groundbox,bestindex)
+        if bestindex == -1:
+            bestbbox = random.choice(bboxlist)
+        bestbbox[2] -= bestbbox[0]
+        bestbbox[3] -= bestbbox[1]
+        for i in range(4):
+            bestbbox[i] = int(bestbbox[i])
+        try:
+            return bestbbox
+        except:
             return [0,0,0,0]

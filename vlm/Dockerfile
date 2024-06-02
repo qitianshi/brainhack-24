@@ -19,9 +19,9 @@ WORKDIR /workspace
 # install other requirements
 COPY requirements.txt .
 RUN pip install -r requirements.txt
+RUN apt install libgl1-mesa-glx -y
 
 # copy the rest of the files into the container
 COPY src .
-
 # start model service
 CMD uvicorn api_service:app --port 5004 --host 0.0.0.0
