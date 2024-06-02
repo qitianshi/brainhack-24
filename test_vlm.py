@@ -11,15 +11,14 @@ import os
 
 load_dotenv()
 
-TEAM_NAME = os.getenv("TEAM_NAME")
-TEAM_TRACK = os.getenv("TEAM_TRACK")
-
+TEAM_NAME = "dingdongs"#os.getenv("TEAM_NAME")
+TEAM_TRACK = "novice"#os.getenv("TEAM_TRACK")
 
 def main():
-    # input_dir = Path(f"/home/jupyter/{TEAM_TRACK}")
-    input_dir = Path(f"../../data/{TEAM_TRACK}/train")
-    # results_dir = Path(f"/home/jupyter/{TEAM_NAME}")
-    results_dir = Path("results")
+    input_dir = Path(f"/home/jupyter/{TEAM_TRACK}")
+    #input_dir = Path(f"../../data/{TEAM_TRACK}/train")
+    results_dir = Path(f"/home/jupyter/{TEAM_NAME}")
+    #results_dir = Path("results")
 
     results_dir.mkdir(parents=True, exist_ok=True)
     instances = []
@@ -49,7 +48,8 @@ def main():
                         }
                     )
                     counter += 1
-
+            if counter > 1000:
+                break
     assert len(truths) == len(instances)
     results = run_batched(instances)
     df = pd.DataFrame(results)
