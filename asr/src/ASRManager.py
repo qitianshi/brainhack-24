@@ -40,9 +40,6 @@ class ASRManager:
         transcription = self.processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
         
         # Tries to validate and perform error correction. If any exceptions, at least return the original transcript.
-        try:
-            transcription = correction.reconstruct_transcript(correction.parse_transcript(transcription))
-        except:
-            pass
+        transcription = correction.reconstruct_transcript(correction.parse_transcript(transcription))
         
         return transcription
