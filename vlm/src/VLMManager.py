@@ -62,7 +62,7 @@ class VLMManager:
         self.device = torch.device('cuda') 
         self.processor = Owlv2Processor.from_pretrained("google/owlv2-base-patch16")
         self.model = Owlv2ForObjectDetection.from_pretrained("google/owlv2-base-patch16").cuda()
-        for i in model.parameters():
+        for i in self.model.parameters():
             i.requires_grad= False
         pass
 
