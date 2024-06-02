@@ -1,5 +1,11 @@
 FROM python:3.8-alpine
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Install any additional dependencies
+RUN apk add --no-cache gcc musl-dev
+
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE 1
 
