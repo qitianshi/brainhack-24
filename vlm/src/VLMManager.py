@@ -26,7 +26,7 @@ class VLMManager:
         print([f for f in os.listdir('.') if os.path.isfile(f)])
         self.clipmodel= torch.load(path.join(path.dirname(path.abspath(__file__)), "clip_ft_2.pt"))
         self.objects = ["cargo aircraft","light aircraft","commercial aircraft","drone","missile","helicopter","fighter jet","fighter plane"]
-        self.model = YOLOWorld(path.join(path.dirname(path.abspath(__file__)), "yoloworldbest2.pt")).to(self.device)
+        self.model = YOLOWorld(path.join(path.dirname(path.abspath(__file__)), "800allbest.pt")).to(self.device)
         for i in self.clipmodel.parameters():
             i.requires_grad=False
         for i in self.model.parameters():
@@ -51,7 +51,7 @@ class VLMManager:
         tokenizedtext = clip.tokenize([caption]).to(self.device)
         clipprob = []
         maxscore = 0
-        for chosenindex in possible:
+        for chosenindex in range(len(bboxlist)):
             bbox = bboxlist[chosenindex]
             bbox[0]*=1520
             bbox[1]*=870
@@ -59,10 +59,10 @@ class VLMManager:
             bbox[3]*=870
             deltax = bbox[2]-bbox[0]
             deltay = bbox[3]-bbox[1]
-            bbox[0]-=deltax/2
-            bbox[1]-=deltay/2
-            bbox[2]-=deltax/2
-            bbox[3]-=deltay/2
+            # bbox[0]-=deltax/2
+            # bbox[1]-=deltay/2
+            # bbox[2]-=deltax/2
+            # bbox[3]-=deltay/2
             croppedimage = inputimage.crop(bbox)
             croppedimage = self.clippreprocess(croppedimage).unsqueeze(0).to(self.device)
             logits_per_image, logits_per_text = self.clipmodel(croppedimage, tokenizedtext)
