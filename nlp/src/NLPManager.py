@@ -2,9 +2,9 @@ import re
 from random import choice
 
 extraction_pattern = re.compile(
-    r'heading\s+is\s+([a-zA-Z\s,\-]+?)\s*(?=tool\s+to\s+deploy\s+is|target\s+is|\.|$)|'
-    r'tool\s+to\s+deploy\s+is\s+([a-zA-Z\s,\-]+?)\s*(?=heading\s+is|target\s+is|\.|$)|'
-    r'target\s+is\s+([a-zA-Z\s,\-]+?)\s*(?=heading\s+is|tool\s+to\s+deploy\s+is|\.|$)',
+    r'heading\s+is([a-zA-Z\s,\-]+?)\s*(?=tool\s+to\s+deploy\s+is|target\s+is|\.|$)|'
+    r'tool\s+to\s+deploy\s+is([a-zA-Z\s,\-]+?)\s*(?=heading\s+is|target\s+is|\.|$)|'
+    r'target\s+is([a-zA-Z\s,\-]+?)\s*(?=heading\s+is|tool\s+to\s+deploy\s+is|\.|$)',
     re.IGNORECASE
 )
 
