@@ -2,21 +2,26 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
-   1. [Additional Directories](#additional-directories)
-   2. [Simulator](#simulator)
-2. [Instructions](#instructions)
-   1. [Local Development Environment Setup](#local-development-environment-setup)
-   2. [Artifacts Submission](#artifacts-submission)
-   3. [Docker + Artifact Registry Recap](#docker-and-artifact-registry-recap)
-   4. [Docker Compose](#docker-compose)
-3. [Local Testing](#local-testing)
-4. [In-person Practice Session](#in-person-practice-session)
-5. [Semi-Finals and Finals Flow](#semi-finals-and-finals-flow)
-6. [Addtional Information](#addtional-information)
-   1. [GCloud CLI](#gcloud-cli)
-7. [Known Issues](#known-issues)
-   1. [Robomaster SDK](#robomaster-sdk)
+- [BrainHack TIL-24 Semis + Finals README](#brainhack-til-24-semis--finals-readme)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+    - [Additional Directories](#additional-directories)
+    - [Simulator](#simulator)
+  - [Instructions](#instructions)
+    - [Local Development Environment Setup](#local-development-environment-setup)
+    - [Artifacts Submission](#artifacts-submission)
+    - [Docker and Artifact Registry Recap](#docker-and-artifact-registry-recap)
+    - [Docker Compose](#docker-compose)
+  - [Local Testing](#local-testing)
+  - [In-person Testing Session](#in-person-testing-session)
+  - [Semi-Finals and Finals Flow](#semi-finals-and-finals-flow)
+  - [Addtional Information](#addtional-information)
+    - [GCloud CLI](#gcloud-cli)
+  - [Known Issues](#known-issues)
+    - [Robomaster SDK](#robomaster-sdk)
+      - [Python Version](#python-version)
+      - [arm64](#arm64)
+    - [Loading Models Offline](#loading-models-offline)
 
 ## Overview
 
@@ -157,6 +162,21 @@ Note that for the finals setup, it will be a LAN setup disconnected from the int
 To install it, see the [installation docs provided by GCP](https://cloud.google.com/sdk/docs/install).
 
 Then, run `gcloud init`, which should open a browser window for you to grant permissions for your user account. If prompted for your project id, input `dsta-angelhack`. If prompted for your region, input `asia-southeast1`. If prompted for your zone, input the zone corresponding to the zone of your team's instance (should be of the form `asia-southeast1-x` where x is any of `a`, `b`, or `c`).
+
+Then run the following, ensuring to replace `TEAM-NAME` with your team name.
+
+```bash
+gcloud auth configure-docker asia-southeast1-docker.pkg.dev -q
+gcloud config set artifacts/location asia-southeast1
+gcloud config set artifacts/repository repository-TEAM-NAME
+```
+
+You should then be able to push to your team's Artifact Registry repository same as during qualifiers:
+
+```bash
+docker tag TEAM-NAME-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-TEAM-NAME/TEAM-NAME-asr:finals
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-TEAM-NAME/TEAM-NAME-asr:finals
+```
 
 ## Known Issues
 
