@@ -11,3 +11,4 @@ transformers==4.37.0
 uvicorn[standard]
 ultralytics==8.2.27
 Pillow
+dill
