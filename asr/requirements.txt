@@ -13,7 +13,6 @@ evaluate
 jiwer
 tensorboard
 gradio
-torch==1.12.1
 torchvision
 torchaudio
 soundfile
