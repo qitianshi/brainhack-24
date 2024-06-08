@@ -48,8 +48,7 @@ def main():
                         }
                     )
                     counter += 1
-            if counter > 1000:
-                break
+                    
     assert len(truths) == len(instances)
     results = run_batched(instances)
     df = pd.DataFrame(results)
