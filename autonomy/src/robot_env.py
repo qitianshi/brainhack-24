@@ -57,7 +57,7 @@ class RobotEnv(Environment):
 
     async def pan_cannon(self, change) -> None:
         """Pans the cannon in the horizontal direction"""
-        await RobotEnv.wait_for_action(self.robot.gimbal.move(yaw=change, yaw_speed=100))
+        await RobotEnv.wait_for_action(self.robot.gimbal.move(yaw=change, yaw_speed=540))
 
     async def reset_pan_cannon(self) -> None:
         await RobotEnv.wait_for_action(self.robot.gimbal.moveto(yaw=0, pitch=15))
