@@ -4,6 +4,7 @@ from random import choice
 from difflib import SequenceMatcher
 from transformers import BartForConditionalGeneration, BartTokenizer, AutoTokenizer
 from os import path
+import torch
 
 # Initialized only if needed.
 phonetics = None
