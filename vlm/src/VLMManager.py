@@ -24,9 +24,9 @@ class VLMManager:
         ])
         print(os.getcwd())
         print([f for f in os.listdir('.') if os.path.isfile(f)])
-        self.clipmodel= torch.load(path.join(path.dirname(path.abspath(__file__)), "clip_ft_2.pt"))
+        self.clipmodel= torch.load(path.join(path.dirname(path.abspath(__file__)), "clip_ft_final.pt"))
         self.objects = ["cargo aircraft","light aircraft","commercial aircraft","drone","missile","helicopter","fighter jet","fighter plane"]
-        self.model = YOLOWorld(path.join(path.dirname(path.abspath(__file__)), "augmentedbestv2.pt")).to(self.device)
+        self.model = YOLOWorld(path.join(path.dirname(path.abspath(__file__)), "highdegree60.pt")).to(self.device)
         for i in self.clipmodel.parameters():
             i.requires_grad=False
         for i in self.model.parameters():
