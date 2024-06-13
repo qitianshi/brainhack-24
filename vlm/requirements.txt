@@ -12,3 +12,4 @@ uvicorn[standard]
 ultralytics==8.2.27
 Pillow
 dill
+numpy
